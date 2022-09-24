@@ -15,7 +15,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/users', (req, res, next) => {
-  createUser(req.body['username'], user => next(res.json(user)));
+  createUser(req.body['username'], (user) => {
+    let id = user.id;
+    let name = user.username;
+    next(res.json({username: name, _id: id}));
+  });
 });
 
 
