@@ -5,6 +5,8 @@ mongoose.connect(process.env['MONGO_URI'], { useNewUrlParser: true, useUnifiedTo
 const Schema = mongoose.Schema;
 
 const exerciseSchema = new Schema({
+  user_id: {type: String, required: true},
+  username: {type: String, required: true},
   description: {type: String, required: true},
   duration: {type: Number, required: true},
   date: String
@@ -13,8 +15,7 @@ const exerciseSchema = new Schema({
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const userSchema = new Schema({
-  username: {type: String, required: true, dropDups: true},
-  log: [exerciseSchema]
+  username: {type: String, required: true, dropDups: true}
 });
 
 const User = mongoose.model('User', userSchema);
@@ -51,6 +52,8 @@ const createExercise = (exerciseObj, done) => {
     }
 
     let exercise = new Exercise({
+      user_id: user.id,
+      username: user.username,
       description: exerciseObj.description,
       duration: exerciseObj.duration,
       date: parsedDate
@@ -59,7 +62,6 @@ const createExercise = (exerciseObj, done) => {
     exercise.save((err, data) => {
       if (err) return console.log(err);
 
-      user.log.push(data)
       done(data);
     })
   });
