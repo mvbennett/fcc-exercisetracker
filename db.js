@@ -38,24 +38,33 @@ const createUser = (username, done) => {
 };
 
 const createExercise = (exerciseObj, done) => {
-  User.findById(exerciseObj.id, (err, user) => {
+  User.findById(exerciseObj[':_id'], (err, user) => {
     if (err) return console.log(err);
 
     if (user === null) return done({error: 'no user'});
+
+    let parsedDate;
+    if (new Date(exerciseObj.date) === 'Invalid Date') {
+      parsedDate = new Date(exerciseObj.date);
+    } else {
+      parsedDate = new Date();
+    }
+
+    let exercise = new Exercise({
+      description: exerciseObj.description,
+      duration: exerciseObj.duration,
+      date: parsedDate
+    });
+
+    exercise.save((err, data) => {
+      if (err) return console.log(err);
+
+      user.log.push(data)
+      done(data);
+    })
   });
 
-  let exercise = new Exercise({
-    _id: exerciseObj.id,
-    description: exerciseObj.description,
-    duration: exerciseObj.duration,
-    date: exerciseObj.date
-  });
 
-  exercise.save((err, data) => {
-    if (err) return console.log(err);
-
-    done(data);
-  })
 };
 
 exports.User = User;

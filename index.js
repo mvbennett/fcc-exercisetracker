@@ -3,7 +3,9 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 const bodyParser = require('body-parser');
+const { createExercise } = require('./db.js');
 const createUser = require('./db.js').createUser;
+const User = require('./db.js').User;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,7 +24,24 @@ app.post('/api/users', (req, res, next) => {
   });
 });
 
+app.post('/api/users/:id/exercises', (req, res, next) => {
+  createExercise(req.body, (exercise) => {
+    User.findById(req.params.id, (err, user) => {
 
+      next(res.json({_id: req.params.id, username: user.username, description: exercise.description, duration: exercise.duration, date: exercise.date}))
+    })
+
+  })
+
+  // User.findById(req.params.id, (err, user) => {
+  //   if (err) return console.log(err)
+
+  //   createExercise(req.body, (exercise) => {
+  //     console.log(exercise);
+  //     next(res.json(exercise));
+  //   })
+  // })
+});
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
