@@ -24,6 +24,12 @@ app.post('/api/users', (req, res, next) => {
   });
 });
 
+app.get('/api/users', (req, res) => {
+  User.find({}, (err, users) => {
+    res.json(users);
+  });
+});
+
 app.post('/api/users/:id/exercises', (req, res, next) => {
   createExercise(req.body, (exercise) => {
     User.findById(req.params.id, (err, user) => {
