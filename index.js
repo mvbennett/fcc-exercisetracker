@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const { createExercise } = require('./db.js');
 const createUser = require('./db.js').createUser;
 const User = require('./db.js').User;
+const compileLogs = require('./db.js').compileLogs;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,6 +48,10 @@ app.post('/api/users/:id/exercises', (req, res, next) => {
   //     next(res.json(exercise));
   //   })
   // })
+});
+
+app.get('/api/users/:id/logs', (req, res) => {
+  compileLogs(req.params.id, data => res.json(data));
 });
 
 const listener = app.listen(process.env.PORT || 3000, () => {

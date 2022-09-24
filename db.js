@@ -69,7 +69,23 @@ const createExercise = (exerciseObj, done) => {
 
 };
 
+const compileLogs = (userId, done) => {
+  User.findById(userId, (err, user) => {
+    if (err) return console.log(err);
+
+    Exercise.find({user_id: userId})
+            .select({description: 1, duration: 1, date: 1})
+            .exec((err, exercises) => {
+              if (err) return console.log(err);
+
+              console.log(exercises);
+              done({_id: user.id, username: user.username, count: exercises.length, log: exercises});
+            });
+  });
+};
+
 exports.User = User;
 exports.Exercise = Exercise;
 exports.createUser = createUser;
 exports.createExercise = createExercise;
+exports.compileLogs = compileLogs;
