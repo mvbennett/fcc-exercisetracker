@@ -28,7 +28,7 @@ app.post('/api/users/:id/exercises', (req, res, next) => {
   createExercise(req.body, (exercise) => {
     User.findById(req.params.id, (err, user) => {
 
-      next(res.json({_id: req.params.id, username: user.username, description: exercise.description, duration: exercise.duration, date: exercise.date}))
+      next(res.json({_id: user.id, username: user.username, description: exercise.description, duration: exercise.duration, date: exercise.date}))
     })
 
   })
