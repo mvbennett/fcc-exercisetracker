@@ -39,15 +39,6 @@ app.post('/api/users/:id/exercises', (req, res, next) => {
     })
 
   })
-
-  // User.findById(req.params.id, (err, user) => {
-  //   if (err) return console.log(err)
-
-  //   createExercise(req.body, (exercise) => {
-  //     console.log(exercise);
-  //     next(res.json(exercise));
-  //   })
-  // })
 });
 
 app.get('/api/users/:id/logs', (req, res) => {
