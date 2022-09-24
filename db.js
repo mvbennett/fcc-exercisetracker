@@ -45,9 +45,9 @@ const createExercise = (exerciseObj, done) => {
 
     let parsedDate;
     if (new Date(exerciseObj.date) === 'Invalid Date') {
-      parsedDate = new Date(exerciseObj.date);
+      parsedDate = new Date(exerciseObj.date).toDateString();
     } else {
-      parsedDate = new Date();
+      parsedDate = new Date().toDateString();
     }
 
     let exercise = new Exercise({
