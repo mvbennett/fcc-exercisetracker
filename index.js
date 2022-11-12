@@ -42,7 +42,11 @@ app.post('/api/users/:id/exercises', (req, res, next) => {
 });
 
 app.get('/api/users/:id/logs', (req, res) => {
-  compileLogs(req.params.id, data => res.json(data));
+  if (req.params) {
+    compileLogsWithOpts(req.params.id, data => res.json(data), {from: req.params.from, to: req.params.to, limit: req.params.limit})
+  } else {
+    compileLogs(req.params.id, data => res.json(data));
+  }
 });
 
 const listener = app.listen(process.env.PORT || 3000, () => {
