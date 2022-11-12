@@ -44,7 +44,7 @@ app.post('/api/users/:id/exercises', (req, res, next) => {
 
 app.get('/api/users/:id/logs', (req, res) => {
   if (req.query) {
-    console.log(req.query);
+    console.log(new Date(req.query.to));
     compileLogsWithOpts(req.params.id, data => res.json(data), req.query)
   } else {
     console.log('else');
