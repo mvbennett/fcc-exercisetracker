@@ -7,6 +7,7 @@ const { createExercise } = require('./db.js');
 const createUser = require('./db.js').createUser;
 const User = require('./db.js').User;
 const compileLogs = require('./db.js').compileLogs;
+const compileLogsWithOpts = require('./db.js').compileLogsWithOpts;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,9 +43,11 @@ app.post('/api/users/:id/exercises', (req, res, next) => {
 });
 
 app.get('/api/users/:id/logs', (req, res) => {
-  if (req.params) {
-    compileLogsWithOpts(req.params.id, data => res.json(data), {from: req.params.from, to: req.params.to, limit: req.params.limit})
+  if (req.query) {
+    console.log(req.query);
+    compileLogsWithOpts(req.params.id, data => res.json(data), req.query)
   } else {
+    console.log('else');
     compileLogs(req.params.id, data => res.json(data));
   }
 });

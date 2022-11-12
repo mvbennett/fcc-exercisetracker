@@ -89,9 +89,7 @@ const compileLogsWithOpts = (userId, done, opts) => {
     if (err) return console.log(err);
 
     Exercise.find({user_id: userId})
-            .where(date < opts[to])
-            .where(date > opts[from])
-            .limit(opts[limit])
+            .limit(parseInt(opts.limit))
             .select({description: 1, duration: 1, date: 1})
             .exec((err, exercises) => {
               if (err) return console.log(err);
@@ -107,3 +105,4 @@ exports.Exercise = Exercise;
 exports.createUser = createUser;
 exports.createExercise = createExercise;
 exports.compileLogs = compileLogs;
+exports.compileLogsWithOpts = compileLogsWithOpts;
