@@ -44,11 +44,11 @@ const createExercise = (exerciseObj, done) => {
 
     if (user === null) return done({error: 'no user'});
 
-    let parsedDate;
+    let unparsedDate;
     if (new Date(exerciseObj.date) === 'Invalid Date') {
-      parsedDate = new Date(exerciseObj.date).toDateString();
+      unparsedDate = new Date(exerciseObj.date);
     } else {
-      parsedDate = new Date().toDateString();
+      unparsedDate = new Date();
     }
 
     let exercise = new Exercise({
@@ -56,7 +56,7 @@ const createExercise = (exerciseObj, done) => {
       username: user.username,
       description: exerciseObj.description,
       duration: exerciseObj.duration,
-      date: parsedDate
+      date: unparsedDate
     });
 
     exercise.save((err, data) => {
